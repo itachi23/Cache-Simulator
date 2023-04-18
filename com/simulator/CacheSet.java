@@ -38,7 +38,8 @@ public class CacheSet {
 
     public void setBlocks(int size) {
         for(int i = 0; i < size; i++){
-            this.blocks.add(new int[3]);
+            for(int j = 0 ; j < associativity; j++)
+                this.blocks.add(new int[3]);
         }
     }
 

@@ -4,16 +4,16 @@ public class Cache {
 
     private int size;
     private int blockSize;
-    private int assocaitivity;
+    private int associativity;
 
     private CacheSet[] sets;
     private Inclusivity inclusivity;
     private ReplacementPolicy replacementPolicy;
 
-    public Cache(int size, int blockSize, Inclusivity inclusivity, ReplacementPolicy replacementPolicy){
+    public Cache(int size, int blockSize, int associativity ,Inclusivity inclusivity, ReplacementPolicy replacementPolicy){
         setSize(size);
         setBlockSize(blockSize);
-        setAssocaitivity(assocaitivity);
+        setAssocaitivity(associativity);
         setInclusivity(inclusivity);
         setReplacementPolicy(replacementPolicy);
     }
@@ -46,22 +46,22 @@ public class Cache {
     }
 
     public int getAssocaitivity() {
-        return assocaitivity;
+        return associativity;
     }
 
     public void setReplacementPolicy(ReplacementPolicy replacementPolicy) {
         this.replacementPolicy = replacementPolicy;
     }
 
-    public void setAssocaitivity(int assocaitivity) {
-        this.assocaitivity = assocaitivity;
+    public void setAssocaitivity(int associativity) {
+        this.associativity = associativity;
     }
 
-    public void setSets(int size, int blockSize, int assocaitivity){
-        int setSize = size/(blockSize * assocaitivity);
+    public void setSets(int size, int blockSize, int associativity){
+        int setSize = size/(blockSize * associativity);
         this.sets = new CacheSet[size];
         for(int i = 0; i < size; i++){
-            sets[i] = new CacheSet(assocaitivity, setSize);
+            sets[i] = new CacheSet(associativity, setSize);
         }
     }
 
