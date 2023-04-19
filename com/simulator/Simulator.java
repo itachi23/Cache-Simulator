@@ -5,13 +5,11 @@ import java.util.Scanner;
 public class Simulator {
 
     public static void main(String[] args) {
-        int size;
-        int blockSize;
-        int associativity;
         int cacheLevels;
         Inclusivity inclusivity;
         ReplacementPolicy replacementPolicy;
-        Cache L1,L2;
+        Cache L1 = null;
+        Cache L2 = null;
         Scanner sc;
         sc = new Scanner(System.in);
         cacheLevels = setCacheLevels(sc);
@@ -19,12 +17,13 @@ public class Simulator {
         replacementPolicy = setReplacementPoliciy(sc);
         for(int i = 1; i <= cacheLevels; i++){
            if(i == 1){
-               L1 = createCache(sc, i);
+               L1 = createCache(sc, i, inclusivity, replacementPolicy);
            }
            else{
-               L2 = createCache(sc, i);
+               L2 = createCache(sc, i, inclusivity, replacementPolicy);
            }
         }
+
     }
     public static int setCacheLevels(Scanner sc){
         int levels;
@@ -63,19 +62,36 @@ public class Simulator {
     }
     public static Inclusivity setInclusivity(Scanner sc){
         int input = -1;
-        while(input != 0 || input != 1 ){
+        while(input != 0 && input != 1 ){
             System.out.println("Enter 1 for inclusivity and 0 for standard procedure");
             input = sc.nextInt();
         }
         return (input == 1) ? Inclusivity.INCLUSIVE : Inclusivity.NONINCLUSIVE;
     }
 
-    public static Cache createCache(Scanner sc, int level){
-//        System.out.println("Enter L" + level + "cache configurations in order of cache size, block size, associativity");
-//        int size = -3;
-//        while(size & (size -1) != )
-//        blockSize = sc.nextInt();
-//        associativity = sc.nextInt();
-          return null;
+    public static Cache createCache(Scanner sc, int level, Inclusivity inclusivity, ReplacementPolicy replacementPolicy){
+        System.out.println("Enter L" + level + "cache configurations in order of cache size, block size, associativity");
+        int size = -3;
+        int blockSize = -3;
+        int associativity = 0;
+        while(!isValid(size, "size") && !isValid(blockSize, "block size") && !isValid(associativity, "associativity")){
+            size = sc.nextInt();
+            blockSize = sc.nextInt();
+            associativity = sc.nextInt();
+        }
+          return new Cache(size,blockSize,associativity,inclusivity,replacementPolicy);
+    }
+
+
+    public static boolean isValid(int num, String property){
+        boolean ans;
+        if((num & (num - 1)) == 0){
+            ans = true;
+        }
+        else{
+            System.out.println(property + " is invalid. Please enter numbers which are powers of 2");
+            ans = false;
+        }
+        return ans;
     }
 }
